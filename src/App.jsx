@@ -1,4 +1,5 @@
-import React from "react";
+
+import React, { useState } from "react";
 import { Link, Routes, Route } from "react-router-dom";
 import AboutUs from "./components/AboutUs";
 import ProductList from "./components/ProductList";
@@ -6,6 +7,12 @@ import Cart from "./components/Cart";
 import "./App.css";
 
 function App() {
+  const [showProductList, setShowProductList] = useState(false);
+
+  const handleGetStarted = () => {
+    setShowProductList(true);
+  };
+
   return (
     <div className="app">
       <nav className="navbar">
@@ -23,24 +30,35 @@ function App() {
           path="/"
           element={
             <>
-              <main className="landing-page">
-                <div className="landing-overlay">
-                  <div className="landing-content">
-                    <h1>Paradise Nursery</h1>
-                    <h2>Bring Nature Into Your Home</h2>
-                    <p>
-                      Discover beautiful houseplants and create your own green
-                      paradise.
-                    </p>
+              {!showProductList ? (
+                <>
+                  <main className="landing-page background-image">
+                    <div className="landing-overlay">
+                      <div className="landing-content">
+                        <h1>Paradise Nursery</h1>
 
-                    <Link to="/plants" className="get-started-button">
-                      Get Started
-                    </Link>
-                  </div>
-                </div>
-              </main>
+                        <h2>Bring Nature Into Your Home</h2>
 
-              <AboutUs />
+                        <p>
+                          Discover beautiful houseplants and create your own
+                          green paradise.
+                        </p>
+
+                        <button
+                          onClick={handleGetStarted}
+                          className="get-started-button"
+                        >
+                          Get Started
+                        </button>
+                      </div>
+                    </div>
+                  </main>
+
+                  <AboutUs />
+                </>
+              ) : (
+                <ProductList />
+              )}
             </>
           }
         />
@@ -54,3 +72,4 @@ function App() {
 }
 
 export default App;
+```
