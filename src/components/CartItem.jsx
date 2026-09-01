@@ -1,22 +1,37 @@
 
 import React from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { removeItem, updateQuantity } from "../redux/CartSlice";
 
 function CartItem({ item }) {
   const dispatch = useDispatch();
+  const cart = useSelector((state) => state.cart);
 
+  // Calculate the total price for this individual item
   const itemTotal = item.price * item.quantity;
 
+  // Calculate the total amount of all items in the cart
+  const calculateTotalCartAmount = () => {
+    return cart.reduce(
+      (total, cartItem) =>
+        total + cartItem.price * cartItem.quantity,
+      0
+    );
+  };
+
   const handleQuantityChange = (newQuantity) => {
-    if (newQuantity >= 1) {
-      dispatch(
-        updateQuantity({
-          id: item.id,
-          quantity: newQuantity,
-        })
-      );
+    // Remove the item when its quantity reaches zero
+    if (newQuantity <= 0) {
+      dispatch(removeItem(item.id));
+      return;
     }
+
+    dispatch(
+      updateQuantity({
+        id: item.id,
+        quantity: newQuantity,
+      })
+    );
   };
 
   return (
@@ -26,12 +41,11 @@ function CartItem({ item }) {
       <div className="cart-item-details">
         <h2>{item.name}</h2>
 
-        <p>Price: ₹{item.price}</p>
+        <p>Unit Price: ₹{item.price}</p>
 
         <div className="quantity-controls">
           <button
             onClick={() => handleQuantityChange(item.quantity - 1)}
-            disabled={item.quantity <= 1}
           >
             -
           </button>
@@ -46,7 +60,11 @@ function CartItem({ item }) {
         </div>
 
         <p className="item-total">
-          Total: ₹{itemTotal}
+          Item Total: ₹{itemTotal}
+        </p>
+
+        <p className="cart-total-from-item">
+          Total Cart Amount: ₹{calculateTotalCartAmount()}
         </p>
 
         <button
@@ -62,3 +80,4 @@ function CartItem({ item }) {
 
 export default CartItem;
 ```
+
