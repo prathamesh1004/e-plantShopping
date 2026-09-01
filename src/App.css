@@ -1,3 +1,4 @@
+```css
 * {
   margin: 0;
   padding: 0;
@@ -30,6 +31,7 @@ body {
 .logo {
   font-size: 24px;
   font-weight: bold;
+  color: #234d20;
 }
 
 .nav-links {
@@ -52,24 +54,26 @@ body {
 
 .landing-page {
   min-height: 600px;
-  background-image: url("https://images.unsplash.com/photo-1497250681960-ef046c08a56e?auto=format&fit=crop&w=1600&q=80");
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
+/* Required background-image class */
+
+.background-image {
+  background-image: url("https://images.unsplash.com/photo-1497250681960-ef046c08a56e?auto=format&fit=crop&w=1600&q=80");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
 .landing-overlay {
   width: 100%;
   min-height: 600px;
-
   display: flex;
   justify-content: center;
   align-items: center;
-
   background: rgba(255, 255, 255, 0.65);
 }
 
@@ -120,18 +124,18 @@ body {
   background: white;
 }
 
-.about-content {
+.about-us-container {
   max-width: 900px;
   margin: auto;
 }
 
-.about-content h2 {
+.about-us-container h2 {
   font-size: 35px;
   margin-bottom: 25px;
   color: #234d20;
 }
 
-.about-content p {
+.about-us-container p {
   font-size: 18px;
   line-height: 1.7;
   margin-bottom: 15px;
@@ -174,6 +178,7 @@ body {
 
 .product-card h2 {
   margin: 15px 0 10px;
+  color: #234d20;
 }
 
 .product-card p {
@@ -232,19 +237,13 @@ body {
 
 .cart-item h2 {
   margin-bottom: 10px;
+  color: #234d20;
 }
 
 .cart-item p {
   font-size: 18px;
   font-weight: bold;
   margin-bottom: 12px;
-}
-
-.cart-page > h2:last-child {
-  text-align: right;
-  margin-top: 30px;
-  font-size: 28px;
-  color: #234d20;
 }
 
 /* Empty Cart */
@@ -259,13 +258,15 @@ body {
   margin-bottom: 15px;
 }
 
-/* Mobile */
+/* Tablet */
 
 @media (max-width: 900px) {
   .product-grid {
     grid-template-columns: repeat(2, 1fr);
   }
 }
+
+/* Mobile */
 
 @media (max-width: 768px) {
   .navbar {
@@ -307,3 +308,4 @@ body {
     text-align: center;
   }
 }
+```
