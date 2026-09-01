@@ -1,67 +1,64 @@
-import { createSlice } from "@reduxjs/toolkit";
 
-const initialState = {
-  items: [],
-};
+import React from "react";
+import { useDispatch } from "react-redux";
+import { removeItem, updateQuantity } from "../redux/CartSlice";
 
-const cartSlice = createSlice({
-  name: "cart",
-  initialState,
+function CartItem({ item }) {
+  const dispatch = useDispatch();
 
-  reducers: {
-    addToCart: (state, action) => {
-      const existingItem = state.items.find(
-        (item) => item.id === action.payload.id
+  const itemTotal = item.price * item.quantity;
+
+  const handleQuantityChange = (newQuantity) => {
+    if (newQuantity >= 1) {
+      dispatch(
+        updateQuantity({
+          id: item.id,
+          quantity: newQuantity,
+        })
       );
+    }
+  };
 
-      if (existingItem) {
-        existingItem.quantity += 1;
-      } else {
-        state.items.push({
-          ...action.payload,
-          quantity: 1,
-        });
-      }
-    },
+  return (
+    <div className="cart-item">
+      <img src={item.image} alt={item.name} />
 
-    removeFromCart: (state, action) => {
-      state.items = state.items.filter(
-        (item) => item.id !== action.payload
-      );
-    },
+      <div className="cart-item-details">
+        <h2>{item.name}</h2>
 
-    increaseQuantity: (state, action) => {
-      const item = state.items.find(
-        (item) => item.id === action.payload
-      );
+        <p>Price: ₹{item.price}</p>
 
-      if (item) {
-        item.quantity += 1;
-      }
-    },
+        <div className="quantity-controls">
+          <button
+            onClick={() => handleQuantityChange(item.quantity - 1)}
+            disabled={item.quantity <= 1}
+          >
+            -
+          </button>
 
-    decreaseQuantity: (state, action) => {
-      const item = state.items.find(
-        (item) => item.id === action.payload
-      );
+          <span>{item.quantity}</span>
 
-      if (item && item.quantity > 1) {
-        item.quantity -= 1;
-      }
-    },
+          <button
+            onClick={() => handleQuantityChange(item.quantity + 1)}
+          >
+            +
+          </button>
+        </div>
 
-    clearCart: (state) => {
-      state.items = [];
-    },
-  },
-});
+        <p className="item-total">
+          Total: ₹{itemTotal}
+        </p>
 
-export const {
-  addToCart,
-  removeFromCart,
-  increaseQuantity,
-  decreaseQuantity,
-  clearCart,
-} = cartSlice.actions;
+        <button
+          className="remove-button"
+          onClick={() => dispatch(removeItem(item.id))}
+        >
+          Remove
+        </button>
+      </div>
+    </div>
+  );
+}
 
-export default cartSlice.reducer;
+export default CartItem;
+```
